@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block title %}
+  Tasks
+{% endblock %}
+
+{% block content %}
+  <h1>
+    TODO list
+    <a href="{% url "task:task_create" %}" class="btn btn-primary" style="float: right">Create</a>
+  </h1>
+  {% for task in task_list %}
+    <hr>
+    <h3>
+      {{ task.content }}: {% if task.done == False %}Not Done{% else %}Done{% endif %}
+      {% if task.done %}
+        <a href="{% url "task:task_done" pk=task.id %}" class="btn btn-danger">Cancel</a>
+        {% else %}
+        <a href="{% url "task:task_done" pk=task.id %}" class="btn btn-primary">Complete</a>
+      {% endif %}
+    </h3>
+
+    <p>Created: {{ task.date_of_creation }}{% if task.deadline is not null %}, Deadline: {{ task.deadline }}{% endif %} </p>
+    <p>Tags:
+      {% if task.tag.all %}
+       {% for tag in task.tag.all %}{{ tag.name }} {% endfor %}
+        {% else %}
+         None
+      {% endif %}
+    </p>
+
+    <p>
+      <a href="{% url "task:task_update" pk=task.id %}">Update</a>
+      <a href="{% url "task:task_delete" pk=task.id %}">Delete</a>
+    </p>
+  {% endfor %}
+
+{% endblock %}

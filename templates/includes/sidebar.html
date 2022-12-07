@@ -1,0 +1,9 @@
+<ul class="sidebar-nav list-group">
+  <li class="list-group-item"><a href="{% url "task:index" %}">Home</a></li>
+  {% if "/tasks/" not in request.path_info %}
+    <li class="list-group-item"><a href="{% url "task:task_list" %}">Tasks</a></li>
+  {% endif %}
+  {% if "/tags/" not in request.path_info %}
+    <li class="list-group-item"><a href="{% url "task:tag_list" %}">Tags</a></li>
+  {% endif %}
+</ul>
